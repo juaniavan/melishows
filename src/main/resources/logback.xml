@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+ 
+    <property name="LOG_FILES_HOME" value="/melishows/logs" />
+    <property name="APPLICATION_FILENAME" value="melishows" />
+    
+    <property name="DEFAULT_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n" />
+ 
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>
+            	${DEFAULT_PATTERN}
+            </pattern>
+        </layout>
+    </appender>
+ 
+    <appender name="LOGFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_FILES_HOME}/${APPLICATION_FILENAME}.log</file>
+        <encoder>
+            <pattern>
+				${DEFAULT_PATTERN}
+			</pattern>
+        </encoder>
+ 
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- Daily Rollover -->
+            <fileNamePattern>${LOG_FILES_HOME}/${APPLICATION_FILENAME}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- Max File Size -->
+            <maxFileSize>10MB</maxFileSize>
+            <!-- Max Files History -->
+            <maxHistory>30</maxHistory>
+            <!-- Total Max Size -->
+            <totalSizeCap>500MB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+     
+    <!-- LOG "ar.com.juani.melishows*" at info level -->
+    <logger name="ar.com.juani.melishows" level="debug" additivity="false">
+        <appender-ref ref="LOGFILE" />
+    </logger>
+    
+    <!-- LOG everything at WARN level -->
+    <root level="debug">
+        <appender-ref ref="LOGFILE" />
+    </root>
+ 
+</configuration>
